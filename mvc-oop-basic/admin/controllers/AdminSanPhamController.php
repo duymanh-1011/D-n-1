@@ -253,16 +253,6 @@ class AdminSanPhamController
         }
     }
 
-    // // Sửa album ảnh
-    // - Sửa ảnh cũ
-    //  + Thêm ảnh mới 
-    //  + Không thêm ảnh mới
-    // - Không sửa ảnh cũ
-    //  + Thêm ảnh mới 
-    //  + Không thêm ảnh mới 
-    // - Xóa ảnh cũ
-    //  + Thêm ảnh mới 
-    //  + Không thêm ảnh mới 
 
     public function postEditAnhSanPham()
     {
