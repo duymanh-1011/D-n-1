@@ -4,6 +4,7 @@ session_start();
 require_once '../commons/env.php'; // Khai báo biến môi trường
 require_once '../commons/function.php'; // Hàm hỗ trợ
 
+checkLoginAdmin();
 // Require Controllers
 require_once './controllers/AdminDanhMucController.php';
 require_once './controllers/AdminSanPhamController.php';
@@ -76,5 +77,12 @@ match ($act) {
     'sua-thong-tin-ca-nhan-quan-tri' =>(new AdminTaiKhoanController())->postEditCaNhanQuanTri(),
         
     'sua-mat-khau-ca-nhan-quan-tri' =>(new AdminTaiKhoanController())->postEditMatKhauCaNhan(),
+
+
+    //router auth
+
+    'login-admin' =>(new AdminTaiKhoanController())->formLogin(), 
+    'check-login-admin' =>(new AdminTaiKhoanController())->login(), 
+    'logout-admin' =>(new AdminTaiKhoanController())->logout(), 
 
 };
