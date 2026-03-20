@@ -48,7 +48,7 @@
               <div class="row">
                 <div class="col-12">
                   <h4>
-                    <i class="fas fa-cat"></i> Shop thú cưng Anhnd120 - Dinhtv7.
+                    <i class="fas fa-cat"></i> Shop quần áo ORVANI
                     <small class="float-right">Ngày đặt: <?= formatDate($donHang['ngay_dat']); ?></small>
                   </h4>
                 </div>
