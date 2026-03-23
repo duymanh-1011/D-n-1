@@ -15,7 +15,6 @@
       <div class="row mb-2">
         <div class="col-sm-6">
           <h1>Báo cáo thống kê</h1>
-          <!-- <?php var_dump($_SESSION['user_admin']); ?> -->
         </div>
       </div>
     </div><!-- /.container-fluid -->
