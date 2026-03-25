@@ -86,6 +86,14 @@ function formatDate($date)
 
 function checkLoginAdmin()
 {
+    $act = $_GET['act'] ?? '/';
+
+    // Allow auth routes without an admin session, otherwise it will redirect forever.
+    $publicAdminRoutes = ['login-admin', 'check-login-admin'];
+    if (in_array($act, $publicAdminRoutes, true)) {
+        return;
+    }
+
     if (!isset($_SESSION['user_admin'])) {
         header("Location: " . BASE_URL_ADMIN . '?act=login-admin');
         exit();

@@ -6,7 +6,7 @@ class SanPham
     {
         $this->conn = connectDB();
     }
-    public function getAllProduct()
+    public function getAllSanPham()
     {
         try {
             $sql = 'SELECT * FROM san_phams';
@@ -16,5 +16,10 @@ class SanPham
         } catch (Exception $e) {
             echo " lỗi" . $e->getMessage();
         }
+    }
+
+    public function getAllProduct()
+    {
+        return $this->getAllSanPham();
     }
 }

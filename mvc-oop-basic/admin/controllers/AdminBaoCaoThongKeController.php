@@ -3,6 +3,7 @@ class AdminBaoCaoThongKeController
 {
     public function home()
     {
-        require_once './views/home.php';
+        header('Location: ' . BASE_URL_ADMIN . '?act=san-pham');
+        exit();
     }
 }

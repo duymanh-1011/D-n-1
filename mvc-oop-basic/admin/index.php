@@ -27,6 +27,7 @@ $act = $_GET['act'] ?? '/';
 match ($act) {
     // route báo cáo thống kê - trang chủ
     '/' => (new AdminBaoCaoThongKeController())->home(),
+    'admindc' => (new AdminBaoCaoThongKeController())->home(),
     // route danh mục
     'danh-muc' => (new AdminDanhMucController())->danhSachDanhMuc(),
     'form-them-danh-muc' => (new AdminDanhMucController())->formAddDanhMuc(),

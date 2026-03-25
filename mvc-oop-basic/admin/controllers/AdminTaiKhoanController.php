@@ -279,7 +279,7 @@ class AdminTaiKhoanController
             if ($user == $email) { // Trường hợp đăng nhập thành công
                 // Lưu thông tin vào session 
                 $_SESSION['user_admin'] = $user;
-                header("Location: " . BASE_URL_ADMIN);
+                header("Location: " . BASE_URL_ADMIN . '?act=admindc');
                 exit();
             }else{
                 // Lỗi thì lưu lỗi vào session
@@ -367,40 +367,4 @@ class AdminTaiKhoanController
         }
     }
 
-         public function formLogin(){
-    require_once './views/auth/formLogin.php';
-    deleteSessionError();
-}
-
-public function login(){
-    if ($_SERVER["REQUEST_METHOD"] == 'POST'){
-
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-
-        $user = $this->modelTaiKhoan->checkLogin($email, $password);
-
-        if ($user == $email) {
-            $_SESSION['user_admin'] = $email;
-
-            header("Location: " . BASE_URL_ADMIN);
-            exit();
-
-        } else {
-            $_SESSION['error'] = $user;
-            $_SESSION['flash'] = true;
-
-            header("Location: " . BASE_URL_ADMIN . '?act=login-admin');
-            exit();
-        }
-    }
-}
-        
-    public function logout(){
-        if (isset($_SESSION['user_admin'])) {
-            unset($_SESSION['user_admin']);
-              header("Location: " . BASE_URL_ADMIN . '?act=login-admin');
-            exit();
-        }
-    }
 }

@@ -10,7 +10,8 @@ class HomeController
 
     public function home()
     {
-        echo "Đây là trang home của tôi";
+        $listSanpham = $this->modelSanPham->getAllSanPham();
+        require_once __DIR__ . '/../views/home.php';
     }
     public function trangchu()
     {
@@ -19,6 +20,6 @@ class HomeController
     public function danhSachSanPham()
     {
         $listProduct = $this->modelSanPham->getAllProduct();
-        require_once './views/listProduct.php';
+        require_once __DIR__ . '/../views/listProduct.php';
     }
 }
