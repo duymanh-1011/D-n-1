@@ -95,7 +95,48 @@ public function gioHang(){
         die;
     }
 }
-     public function thanhToan() {
-        require_once "./views/thanhToan.php";
-     }
+    public function thanhToan(){
+        if (isset($_SESSION['user_client'])) {
+            $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+            // Lấy dữ liệu giỏ hàng của người dùng
+            
+            $gioHang = $this->modelGioHang->getGioHangFromUser($user['id']);
+            if (!$gioHang) {
+                $gioHangId = $this->modelGioHang->addGioHang($user['id']);
+                $gioHang = ['id'=>$gioHangId];
+                $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
+            }else{
+                $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
+            }
+            // var_dump($chiTietGioHang);die;
+
+            require_once './views/thanhToan.php';
+
+        }else{
+            var_dump('Chưa đăng nhập');die;
+        }                               
+                                            
+        
+    }
+
+    public function postThanhToan(){
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // var_dump($_POST);die;
+            $ten_nguoi_nhan = $_POST['ten_nguoi_nhan'];
+            $email_nguoi_nhan = $_POST['email_nguoi_nhan'];
+            $sdt_nguoi_nhan = $_POST['sdt_nguoi_nhan'];
+            $dia_chi_nguoi_nhan = $_POST['dia_chi_nguoi_nhan'];
+            $ghi_chu = $_POST['ghi_chu'];
+            $tong_tien = $_POST['tong_tien'];
+            $phuong_thuc_thanh_toan_id = $_POST['phuong_thuc_thanh_toan_id'];
+
+            $ngay_dat = date('Y-m-d');
+            $trang_thai_id = 1;
+
+            $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+            $tai_khoan_id = $user['id'];
+
+            $ma_don_hang = 'DH-' . rand(1000,9999);
+
+        }
 }
