@@ -318,9 +318,6 @@ class AdminTaiKhoanController
             $new_pass = $_POST['new_pass'];
             $confirm_pass = $_POST['confirm_pass'];
 
-            
-
-            
             //Lấy thông tin user từ session
             $user = $this->modelTaiKhoan->getTaiKhoanformEmail($_SESSION['user_admin']);
 
@@ -367,12 +364,43 @@ class AdminTaiKhoanController
                 exit();
                 
             }
-
-            
-                
-            
-
         }
     }
 
+         public function formLogin(){
+    require_once './views/auth/formLogin.php';
+    deleteSessionError();
+}
+
+public function login(){
+    if ($_SERVER["REQUEST_METHOD"] == 'POST'){
+
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+
+        $user = $this->modelTaiKhoan->checkLogin($email, $password);
+
+        if ($user == $email) {
+            $_SESSION['user_admin'] = $email;
+
+            header("Location: " . BASE_URL_ADMIN);
+            exit();
+
+        } else {
+            $_SESSION['error'] = $user;
+            $_SESSION['flash'] = true;
+
+            header("Location: " . BASE_URL_ADMIN . '?act=login-admin');
+            exit();
+        }
+    }
+}
+        
+    public function logout(){
+        if (isset($_SESSION['user_admin'])) {
+            unset($_SESSION['user_admin']);
+              header("Location: " . BASE_URL_ADMIN . '?act=login-admin');
+            exit();
+        }
+    }
 }
