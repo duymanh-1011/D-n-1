@@ -60,20 +60,18 @@
                                     <!-- main menu navbar start -->
                                     <nav class="desktop-menu">
                                         <ul>
-                                            <li><a href="<?= BASE_URL ?>">Trang chu</a>
+                                            <li><a href="<?= BASE_URL ?>">Trang chủ</a>
                                                 
                                             </li>
                                            
-                                            <li><a href="#">SAN PHAM <i class="fa fa-angle-down"></i></a>
+                                            <li><a href="<?= BASE_URL ?>?act=danh-sach-san-pham">Sản phẩm <i class="fa fa-angle-down"></i></a>
                                                 <ul class="dropdown">
-                                                    <li><a href="blog-left-sidebar.html">blog left sidebar</a></li>
+                                                    <li><a href="<?= BASE_URL ?>?act=danh-sach-san-pham">Danh sách sản phẩm</a></li>
                                                     
                                                 </ul>
                                             </li>
-                                            <li><a href="contact-us.html">Gioi Thieu</a></li>
-                                            <li><a href="contact-us.html">l</a></li>
-                                            <li><a href="contact-us.html">Contact us</a></li>
-                                            <li><a href="contact-us.html">Contact us</a></li>
+                                            <li><a href="contact-us.html">Giới thiệu</a></li>
+                                            <li><a href="contact-us.html">Liên hệ</a></li>
                                         </ul>
                                     </nav>
                                     <!-- main menu navbar end -->
@@ -88,7 +86,7 @@
                                 <div class="header-search-container"> 
                                     <button class="search-trigger d-xl-none d-lg-block"><i class="pe-7s-search"></i></button>
                                     <form class="header-search-box d-lg-none d-xl-block">
-                                        <input type="text" placeholder="Nhap ten san pham" class="header-search-field">
+                                        <input type="text" placeholder="Nhập tên sản phẩm" class="header-search-field">
                                         <button class="header-search-btn"><i class="pe-7s-search"></i></button>
                                     </form>
                                 </div>
@@ -99,9 +97,9 @@
                                                 <i class="pe-7s-user"></i>
                                             </a>
                                             <ul class="dropdown-list">
-                                                <li><a href="login-register.html">DANG NHAP</a></li>
-                                                <li><a href="login-register.html">DANG KY</a></li>
-                                                <li><a href="my-account.html">TAI KHOAN CUA TOI</a></li>
+                                                <li><a href="login-register.html">Đăng nhập</a></li>
+                                                <li><a href="login-register.html">Đăng ký</a></li>
+                                                <li><a href="my-account.html">Tài khoản của tôi</a></li>
                                             </ul>
                                         </li>
                                        

@@ -20,5 +20,6 @@ match ($act) {
     '/', '', 'home' => (new HomeController())->home(),
     'trangchu' => (new HomeController())->trangchu(),
     'danh-sach-san-pham' => (new HomeController())->danhSachSanPham(),
+    'chi-tiet-san-pham' => (new HomeController())->chiTietSanPham(),
     default => (new HomeController())->home(),
 };
