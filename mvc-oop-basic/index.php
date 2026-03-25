@@ -27,6 +27,8 @@ match ($act) {
     'them-gio-hang' => (new HomeController())->addGioHang(),
     'gio-hang' => (new HomeController())->gioHang(),
 
+'thanh-toan' => (new HomeController())->thanhToan(),
+
 
 
 

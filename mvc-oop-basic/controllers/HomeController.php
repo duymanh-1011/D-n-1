@@ -95,5 +95,7 @@ public function gioHang(){
         die;
     }
 }
-
+     public function thanhToan() {
+        require_once "./views/thanhToan.php";
+     }
 }
