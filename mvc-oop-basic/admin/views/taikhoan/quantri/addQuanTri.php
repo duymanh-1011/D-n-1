@@ -42,7 +42,7 @@
 
                                 <div class="form-group">
                                     <label>Email</label>
-                                    <input type="email" class="form-control" name="email" placeholder="Nhập email">
+                                    <input type="email" class="form-control" name="email" placeholder="Nhập họ tên">
                                     <?php if (isset($_SESSION['error']['email'])) { ?>
                                         <p class="text-danger"><?= $_SESSION['error']['email'] ?></p>
                                     <?php } ?>
