@@ -147,10 +147,13 @@ class AdminTaiKhoan
             $stmt->execute(['email'=>$email]);
             $user = $stmt->fetch();
 
-            if ($user && password_verify($mat_khau, $user['mat_khau'])) {
+            // var_dump($mat_khau);die;
+
+            if ($user && password_verify(   $mat_khau, $user['mat_khau'])) {
+                // var_dump(1);die;     
                 if ($user['chuc_vu_id'] == 1) {
                     if ($user['trang_thai'] == 1) {
-                        return $user['email']; // Trường hợp đăng nhập thành công
+                        return $user; // Trường hợp đăng nhập thành công
                     }else{
                         return "Tài khoản bị cấm";
                     }
