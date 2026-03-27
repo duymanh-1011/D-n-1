@@ -2,6 +2,17 @@
 
 <?php require_once 'layout/menu.php'; ?>
 
+<?php if (isset($_SESSION['error']) && !empty($_SESSION['error'])): ?>
+    <div class="alert alert-danger" role="alert">
+        <ul>
+            <?php foreach ($_SESSION['error'] as $err): ?>
+                <li><?= htmlspecialchars($err) ?></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+    <?php unset($_SESSION['error']); unset($_SESSION['flash']); ?>
+<?php endif; ?>
+
 <main>
         <!-- breadcrumb area start -->
         <div class="breadcrumb-area">
@@ -57,8 +68,18 @@
                                                     <?= formatPrice($sanPham['gia_san_pham']) . ' đ' ?>
                                                 <?php } ?>
                                             </span></td>
-                                            <td class="pro-quantity">
-                                                <div class="pro-qty"><input type="text" value="<?= $sanPham['so_luong'] ?>"></div>
+                                           <td class="pro-quantity">
+                                                <form method="POST" action="<?= BASE_URL . '?act=update-cart' ?>">
+                                                    <input type="hidden" name="san_pham_id" value="<?= $sanPham['san_pham_id'] ?>">
+
+                                                    <div class="quantity-box">
+                                                        <button type="submit" name="action" value="minus" class="qty-btn">-</button>
+                                                        
+                                                        <input type="text" name="so_luong" value="<?= $sanPham['so_luong'] ?>">
+                                                        
+                                                        <button type="submit" name="action" value="plus" class="qty-btn">+</button>
+                                                    </div>
+                                                </form>
                                             </td>
                                             <td class="pro-subtotal"><span>
                                                 <?php 
@@ -85,9 +106,6 @@
                                         <input type="text" placeholder="Enter Your Coupon Code" required />
                                         <button class="btn btn-sqr">Apply Coupon</button>
                                     </form>
-                                </div>
-                                <div class="cart-update">
-                                    <a href="#" class="btn btn-sqr">Update Cart</a>
                                 </div>
                             </div>
                         </div>

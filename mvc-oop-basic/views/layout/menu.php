@@ -55,12 +55,12 @@
                                     </form>
                                 </div>
                                 <div class="header-configure-area">
-                                    <ul class="nav justify-content-end">
-                                        <label for="">
-                                            <?php if (isset($_SESSION['user_client'])) {
-                                                echo $_SESSION['user_client'];
-                                            } ?>
-                                        </label>
+                                    <ul class="nav justify-content-end align-items-center">
+                                        <?php if (isset($_SESSION['user_client'])) { ?>
+                                            <li class="user-email">
+                                                <?= $_SESSION['user_client'] ?>
+                                            </li>
+                                        <?php } ?>
                                         <li class="user-hover">
                                             <a href="#">
                                                 <i class="pe-7s-user"></i>
@@ -68,8 +68,10 @@
                                             <ul class="dropdown-list">
                                                 <?php if (!isset($_SESSION['user_client'])) { ?>
                                                     <li><a href="<?= BASE_URL . '?act=login' ?>">Đăng nhập</a></li>
+                                                    <li><a href="<?= BASE_URL . '?act=register' ?>">Đăng ký</a></li>
                                                 <?php } else { ?>
-                                                    <li><a href="my-account.html">Tài khoản</a></li>
+                                                    <li><a href="<?= BASE_URL . '?act=lich_su_mua_hang' ?>">Đơn hàng</a></li>
+                                                    <li><a href="<?= BASE_URL . '?act=tai-khoan' ?>">Tài khoản</a></li>
                                                     <li><a href="?act=logout">Đăng xuất</a></li>
                                                 <?php } ?>
                                             </ul>
@@ -79,7 +81,7 @@
                                                 <i class="pe-7s-shopbag"></i>
                                                 <div class="notification">2</div>
                                             </a>
-                                        </li>
+                                        </li> 
                                     </ul>
                                 </div>
                             </div>

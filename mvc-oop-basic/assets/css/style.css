@@ -6064,3 +6064,74 @@ blockquote {
 }
 
 /*----- footer area end -----*/
+.quantity-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity-box input {
+    width: 50px;
+    height: 35px;
+    text-align: center;
+    margin: 0 5px;
+}
+
+.qty-btn {
+    width: 35px;
+    height: 35px;
+}
+.user-email {
+    white-space: nowrap;
+    margin-right: 10px;
+    font-size: 14px;
+}
+.header-configure-area .nav {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap; /* 🔥 QUAN TRỌNG */
+}
+
+.header-configure-area .nav li {
+    display: flex;
+    align-items: center;
+}
+
+.user-email {
+    white-space: nowrap;
+    margin-right: 10px;
+}
+
+.custom-alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #ff4d4f;
+    color: #fff;
+    padding: 15px 25px;
+    border-radius: 8px;
+    z-index: 99999;
+    font-weight: 500;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+
+    /* animation */
+    animation: slideIn 0.4s ease, fadeOut 0.5s ease 3s forwards;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
