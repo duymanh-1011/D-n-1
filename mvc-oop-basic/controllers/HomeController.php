@@ -202,16 +202,26 @@ class HomeController
                 $gioHangId = $this->modelGioHang->addGioHang($mail['id']);
                 $gioHang = ['id'=>$gioHangId];
                 $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
-            }else{
+            } else {
                 $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
             }
-            // var_dump($chiTietGioHang);die;
-
             require_once './views/gioHang.php';
-
-        }else{
-            header("Location: ". BASE_URL . '?act=login');
+        } else {
+            header("Location: " . BASE_URL . '?act=login');
+            exit();
         }
+    }
+
+    public function taiKhoan()
+    {
+        if (!isset($_SESSION['user_client'])) {
+            header("Location: " . BASE_URL . '?act=login');
+            exit();
+        }
+
+        $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+
+        require_once './views/taiKhoan.php';
     }
 
     public function thanhToan(){
