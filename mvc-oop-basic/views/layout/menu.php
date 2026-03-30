@@ -97,14 +97,19 @@
                                                 <i class="pe-7s-user"></i>
                                             </a>
                                             <ul class="dropdown-list">
-                                                <li><a href="login-register.html">Đăng nhập</a></li>
-                                                <li><a href="login-register.html">Đăng ký</a></li>
-                                                <li><a href="my-account.html">Tài khoản của tôi</a></li>
+                                                <?php if (!empty($_SESSION['user_client'])) : ?>
+                                                    <li><a href="#">Xin chào, <?= htmlspecialchars($_SESSION['user_client']['ho_ten'] ?? 'Khách hàng') ?></a></li>
+                                                    <li><a href="<?= BASE_URL ?>?act=lich-su-mua-hang">Lịch sử mua hàng</a></li>
+                                                    <li><a href="<?= BASE_URL ?>?act=logout-client">Đăng xuất</a></li>
+                                                <?php else : ?>
+                                                    <li><a href="<?= BASE_URL ?>?act=login">Đăng nhập</a></li>
+                                                    <li><a href="<?= BASE_URL ?>?act=login">Đăng ký</a></li>
+                                                <?php endif; ?>
                                             </ul>
                                         </li>
                                        
                                         <li>
-                                            <a href="#" class="minicart-btn">
+                                            <a href="<?= BASE_URL ?>?act=gio-hang" class="minicart-btn">
                                                 <i class="pe-7s-shopbag"></i>
                                                 <div class="notification">2</div>
                                             </a>

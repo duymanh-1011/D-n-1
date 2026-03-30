@@ -134,12 +134,15 @@ $tongBinhLuan = count($listBinhLuan ?? []);
 
                                     <div class="quantity-cart-box d-flex align-items-center">
                                         <h6 class="option-title">Số lượng:</h6>
-                                        <div class="quantity">
-                                            <div class="pro-qty"><input type="text" value="1"></div>
-                                        </div>
-                                        <div class="action_link">
-                                            <a class="btn btn-cart2" href="#">Thêm vào giỏ hàng</a>
-                                        </div>
+                                        <form action="<?= BASE_URL ?>?act=them-gio-hang" method="post" class="d-flex align-items-center">
+                                            <div class="quantity">
+                                                <div class="pro-qty"><input type="text" name="so_luong" value="1"></div>
+                                            </div>
+                                            <input type="hidden" name="san_pham_id" value="<?= (int)($sanPham['id'] ?? 0) ?>">
+                                            <div class="action_link">
+                                                <button class="btn btn-cart2" type="submit">Thêm vào giỏ hàng</button>
+                                            </div>
+                                        </form>
                                     </div>
 
                                     <div class="pro-size">
