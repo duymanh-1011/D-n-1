@@ -24,7 +24,7 @@ match ($act) {
 
     // Auth
     'login' => (new HomeController())->formLogin(),
-    'register' => (new HomeController())->formRegister(),
+    'register-form' => (new HomeController())->formRegister(),
     'check-register' => (new HomeController())->postRegister(),
     'check-login' => (new HomeController())->postLogin(),
     'logout' => (new HomeController())->logout(),
@@ -40,4 +40,5 @@ match ($act) {
     'lich_su_mua_hang' => (new HomeController())->lichSuMuaHang(),
     'chi_tiet_mua_hang' => (new HomeController())->chiTietMuaHang(),
     'huy_don_hang' => (new HomeController())->huyDonHang(),
+    'tai-khoan' => (new HomeController())->taiKhoan(),
 };

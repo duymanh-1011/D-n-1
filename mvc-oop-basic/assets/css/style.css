@@ -6135,3 +6135,18 @@ blockquote {
         transform: translateX(100%);
     }
 }
+
+.register-link {
+    text-align: left;
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+.register-link a {
+    color: #c29958; /* giống màu "Quên mật khẩu" */
+    text-decoration: none;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}

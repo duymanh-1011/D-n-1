@@ -49,41 +49,73 @@ class HomeController
         exit();
     }
 
-    public function postRegister(){
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $ho_ten = trim($_POST['ho_ten']);
-            $email = trim($_POST['email']);
-            $password = $_POST['password'];
-            $password_confirm = $_POST['password_confirm'];
+   public function postRegister() {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-            $errors = [];
-            if (!$ho_ten || !$email || !$password || !$password_confirm) {
-                $errors[] = 'Vui lòng điền đầy đủ thông tin.';
-            }
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $errors[] = 'Email không hợp lệ.';
-            }
-            if ($password !== $password_confirm) {
-                $errors[] = 'Mật khẩu xác nhận không khớp.';
-            }
-            if ($this->modelTaiKhoan->getTaiKhoanFromEmail($email)) {
-                $errors[] = 'Email đã tồn tại, vui lòng dùng email khác.';
-            }
+        $ten = trim($_POST['ho_ten']);
+        $email = trim($_POST['email']);
+        $ngay_sinh = trim($_POST['ngay_sinh']);
+        $dia_chi = trim($_POST['dia_chi']);
+        $password = $_POST['password'];
+        $confirm = $_POST['confirm_password'];
+        $sdt = trim($_POST['so_dien_thoai']);
 
-            if (!empty($errors)) {
-                $_SESSION['error'] = $errors;
-                header('Location: ' . BASE_URL . '?act=register');
-                exit();
-            }
+        $errors = [];
 
-            $hashedPass = password_hash($password, PASSWORD_DEFAULT);
-            $this->modelTaiKhoan->addTaiKhoan($ho_ten, $email, $hashedPass);
+        // validate rỗng
+        if (empty($ten)) $errors[] = "Không được để trống tên";
+        if (empty($email)) $errors[] = "Không được để trống email";
+        if (empty($ngay_sinh)) $errors[] = "Không được để trống ngày sinh";
+        if (empty($dia_chi)) $errors[] = "Không được để trống địa chỉ";
+        if (empty($password)) $errors[] = "Không được để trống mật khẩu";
+        if (empty($sdt)) $errors[] = "Không được để trống số điện thoại";
 
-            $_SESSION['user_client'] = $email;
-            header('Location: ' . BASE_URL);
+        // validate email
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $errors[] = "Email không hợp lệ";
+        }
+
+        // password
+        if (strlen($password) < 6) {
+            $errors[] = "Mật khẩu phải >= 6 ký tự";
+        }
+
+        if ($password !== $confirm) {
+            $errors[] = "Mật khẩu nhập lại không khớp";
+        }
+
+        // check email tồn tại
+        if ($this->modelTaiKhoan->checkEmailExists($email)) {
+            $errors[] = "Email đã tồn tại";
+        }
+
+        // nếu lỗi
+        if (!empty($errors)) {
+            $_SESSION['error'] = $errors;
+            header("Location: " . BASE_URL . '?act=register-form');
+            exit();
+        }
+
+        // hash password
+        $hashPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        // lưu DB
+        $result = $this->modelTaiKhoan->register($ten, $email, $ngay_sinh, $dia_chi, $hashPassword, $sdt);
+
+        // kiểm tra kết quả đăng ký
+        if ($result === true) {
+            // thông báo thành công
+            $_SESSION['error'] = ['Đăng ký thành công! Hãy đăng nhập'];
+            header("Location: " . BASE_URL . '?act=login');
+            exit();
+        } else {
+            // thông báo lỗi
+            $_SESSION['error'] = [$result];
+            header("Location: " . BASE_URL . '?act=register-form');
             exit();
         }
     }
+}
 
     public function logout(){
         unset($_SESSION['user_client']);
@@ -104,21 +136,17 @@ class HomeController
 
             $user = $this->modelTaiKhoan->checkLogin($email, $password);
 
-            if ($user == $email) { // Trường hợp đăng nhập thành công
-                // Lưu thông tin vào session 
-                $_SESSION['user_client'] = $user;
+            if ($user) {
+                // Trường hợp đăng nhập thành công
+                $_SESSION['user_client'] = $user['email'];
                 header("Location: " . BASE_URL);
                 exit();
-            }else{
+            } else {
                 // Lỗi thì lưu lỗi vào session
-                $_SESSION['error'] = $user;
-                // var_dump($_SESSION['error']);die;
-
+                $_SESSION['error'] = ['Email hoặc mật khẩu không đúng'];
                 $_SESSION['flash'] = true;
-
                 header("Location: " . BASE_URL . '?act=login');
                 exit();
-                
             }
         }
     }
@@ -174,16 +202,26 @@ class HomeController
                 $gioHangId = $this->modelGioHang->addGioHang($mail['id']);
                 $gioHang = ['id'=>$gioHangId];
                 $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
-            }else{
+            } else {
                 $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
             }
-            // var_dump($chiTietGioHang);die;
-
             require_once './views/gioHang.php';
-
-        }else{
-            header("Location: ". BASE_URL . '?act=login');
+        } else {
+            header("Location: " . BASE_URL . '?act=login');
+            exit();
         }
+    }
+
+    public function taiKhoan()
+    {
+        if (!isset($_SESSION['user_client'])) {
+            header("Location: " . BASE_URL . '?act=login');
+            exit();
+        }
+
+        $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+
+        require_once './views/taiKhoan.php';
     }
 
     public function thanhToan(){
