@@ -72,6 +72,10 @@
                                     <div class="login-reg-form-meta d-flex align-items-center justify-content-between">
                                         <a href="#" class="forget-pwd">Quên mật khẩu</a>
                                     </div>
+                                        <div class="register-link">
+                                            <span>Bạn chưa có tài khoản?</span>
+                                            <a href="<?= BASE_URL . '?act=register-form' ?>">Đăng ký</a>
+                                        </div>
                                 </div>
 
                                 <div class="single-input-item">

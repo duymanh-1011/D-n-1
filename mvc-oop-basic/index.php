@@ -24,7 +24,7 @@ match ($act) {
 
     // Auth
     'login' => (new HomeController())->formLogin(),
-    'register' => (new HomeController())->formRegister(),
+    'register-form' => (new HomeController())->formRegister(),
     'check-register' => (new HomeController())->postRegister(),
     'check-login' => (new HomeController())->postLogin(),
     'logout' => (new HomeController())->logout(),
