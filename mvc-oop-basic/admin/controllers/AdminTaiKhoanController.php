@@ -53,8 +53,8 @@ class AdminTaiKhoanController
             if (empty($errors)) {
                 // Nếu ko có lỗi thì tiến hành thêm tài khoản
                 // var_dump('Oke');
-                // đặt password mặc định - 123@123ab
-                $password = password_hash('123@123ab', PASSWORD_BCRYPT);
+                // đặt password mặc định - 123456
+                $password = password_hash('123456', PASSWORD_BCRYPT);
 
                 // Khai báo chức vụ
                 $chuc_vu_id = 1;
@@ -139,8 +139,7 @@ class AdminTaiKhoanController
     public function resetPassword(){
         $tai_khoan_id = $_GET['id_quan_tri'];
         $tai_khoan = $this->modelTaiKhoan->getDetailTaiKhoan($tai_khoan_id);
-        // đặt password mặc định - 123@123ab
-        $password = password_hash('123@123ab', PASSWORD_BCRYPT);
+        $password = password_hash('123456', PASSWORD_BCRYPT);
 
         $status = $this->modelTaiKhoan->resetPassword($tai_khoan_id, $password);
         // var_dump($status);die;
@@ -275,8 +274,9 @@ class AdminTaiKhoanController
             // Xử lý kiểm tra thông tin đăng nhập
 
             $user = $this->modelTaiKhoan->checkLogin($email, $password);
+            // var_dump($user);die; 
 
-            if ($user == $email) { // Trường hợp đăng nhập thành công
+            if (is_array($user)) { // Trường hợp đăng nhập thành công
                 // Lưu thông tin vào session 
                 $_SESSION['user_admin'] = $user;
                 header("Location: " . BASE_URL_ADMIN);
@@ -304,7 +304,7 @@ class AdminTaiKhoanController
 
 
     public function formEditCaNhanQuanTri(){
-        $email = $_SESSION['user_admin'];
+        $email = $_SESSION['user_admin']['email'];
         $thongTin = $this->modelTaiKhoan->getTaiKhoanformEmail($email);
         // var_dump($thongTin);die;
         require_once './views/taikhoan/canhan/editCaNhan.php';
@@ -319,7 +319,7 @@ class AdminTaiKhoanController
             $confirm_pass = $_POST['confirm_pass'];
 
             //Lấy thông tin user từ session
-            $user = $this->modelTaiKhoan->getTaiKhoanformEmail($_SESSION['user_admin']);
+            $user = $this->modelTaiKhoan->getTaiKhoanformEmail($_SESSION['user_admin']['email']);
 
             // var_dump($user);die;
             $checkPass = password_verify($old_pass, $user['mat_khau']);

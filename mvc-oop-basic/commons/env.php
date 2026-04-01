@@ -5,7 +5,7 @@
 
 define('BASE_URL', 'http://localhost/Du_An_1/mvc-oop-basic/');
 // đường dẫn vào admin
-define('BASE_URL_ADMIN', '  ');
+define('BASE_URL_ADMIN', 'http://localhost/Du_An_1/mvc-oop-basic/admin/');
 
 define('DB_HOST', 'localhost');
 define('DB_PORT', 3306);
