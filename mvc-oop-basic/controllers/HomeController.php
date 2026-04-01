@@ -356,6 +356,18 @@ class HomeController
         return $taiKhoanId;
     }
 
+    public function gioiThieu()
+    {
+        require_once __DIR__ . '/../views/gioiThieu.php';
+        exit();
+    }
+
+    public function lienHe()
+    {
+        require_once __DIR__ . '/../views/lienHe.php';
+        exit();
+    }
+
     private function safeRedirect($redirect)
     {
         $redirect = trim((string)$redirect);
