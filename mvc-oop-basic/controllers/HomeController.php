@@ -452,4 +452,16 @@ class HomeController
             die;
         }
     }
+
+    public function gioiThieu()
+    {
+        require_once './views/gioiThieu.php';
+        exit();
+    }
+
+    public function lienHe()
+    {
+        require_once './views/lienHe.php';
+        exit();
+    }
 }
