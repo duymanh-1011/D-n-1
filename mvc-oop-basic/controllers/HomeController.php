@@ -19,6 +19,17 @@ class HomeController
         require_once './views/home.php';
     }
 
+    public function danhSachSanPham(){
+        $danh_muc_id = $_GET['danh_muc_id'] ?? null;
+        $min_price = $_GET['min_price'] ?? null;
+        $max_price = $_GET['max_price'] ?? null;
+
+        $listDanhMuc = $this->modelSanPham->getAllDanhMuc();
+        $listSanPham = $this->modelSanPham->getSanPhamByFilter($danh_muc_id, $min_price, $max_price);
+
+        require_once './views/danhSachSanPham.php';
+    }
+
      public function chiTietSanPham(){
         $id = $_GET['id_san_pham'];
 
@@ -35,6 +46,39 @@ class HomeController
             require_once './views/detailSanPham.php';
         } else {
             header("Location: " . BASE_URL);
+            exit();
+        }
+    }
+
+    public function postBinhLuan(){
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (!isset($_SESSION['user_client'])) {
+                $_SESSION['error'] = ['Bạn cần đăng nhập để bình luận'];
+                header("Location: " . BASE_URL . '?act=login');
+                exit();
+            }
+
+            $san_pham_id = $_POST['san_pham_id'];
+            $noi_dung = trim($_POST['noi_dung']);
+
+            if (empty($noi_dung)) {
+                $_SESSION['error'] = ['Nội dung bình luận không được để trống'];
+                header("Location: " . BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $san_pham_id);
+                exit();
+            }
+
+            $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+            $tai_khoan_id = $user['id'];
+
+            $result = $this->modelSanPham->addBinhLuan($san_pham_id, $tai_khoan_id, $noi_dung);
+
+            if ($result) {
+                $_SESSION['success'] = ['Bình luận thành công'];
+            } else {
+                $_SESSION['error'] = ['Bình luận thất bại'];
+            }
+
+            header("Location: " . BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $san_pham_id);
             exit();
         }
     }

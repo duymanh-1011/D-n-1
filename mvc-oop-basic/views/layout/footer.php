@@ -14,18 +14,18 @@
                             <div class="widget-title">
                                 <div class="widget-logo">
                                     <a href="index.html">
-                                        <img src="assets/img/logo/logo.png" alt="brand logo">
+                                        <img src="assets/img/logo/logo_orvani.png" alt="brand logo">
                                     </a>
                                 </div>
                             </div>
                             <div class="widget-body">
-                                <p>We are a team of designers and developers that create high quality wordpress, shopify, Opencart </p>
+                                <p>Chúng tôi là một đội ngũ thiết kế và phát triển tạo ra các sản phẩm wordpress, shopify, Opencart chất lượng cao</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6">
                         <div class="widget-item">
-                            <h6 class="widget-title">Contact Us</h6>
+                            <h6 class="widget-title">Liên Hệ Chúng Tôi</h6>
                             <div class="widget-body">
                                 <address class="contact-block">
                                     <ul>
@@ -39,22 +39,22 @@
                     </div>
                     <div class="col-lg-3 col-md-6">
                         <div class="widget-item">
-                            <h6 class="widget-title">Information</h6>
+                            <h6 class="widget-title">Thông Tin</h6>
                             <div class="widget-body">
                                 <ul class="info-list">
-                                    <li><a href="#">about us</a></li>
-                                    <li><a href="#">Delivery Information</a></li>
-                                    <li><a href="#">privet policy</a></li>
-                                    <li><a href="#">Terms & Conditions</a></li>
-                                    <li><a href="#">contact us</a></li>
-                                    <li><a href="#">site map</a></li>
+                                    <li><a href="#">về chúng tôi</a></li>
+                                    <li><a href="#">Thông Tin Giao Hàng</a></li>
+                                    <li><a href="#">Chính Sách Bảo Mật</a></li>
+                                    <li><a href="#">Điều Khoản Và Điều Kiện</a></li>
+                                    <li><a href="#">liên hệ chúng tôi</a></li>
+                                    <li><a href="#">sơ đồ trang web</a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6">
                         <div class="widget-item">
-                            <h6 class="widget-title">Follow Us</h6>
+                            <h6 class="widget-title">Theo Dõi Chúng Tôi</h6>
                             <div class="widget-body social-link">
                                 <a href="#"><i class="fa fa-facebook"></i></a>
                                 <a href="#"><i class="fa fa-twitter"></i></a>
@@ -67,10 +67,10 @@
                 <div class="row align-items-center mt-20">
                     <div class="col-md-6">
                         <div class="newsletter-wrapper">
-                            <h6 class="widget-title-text">Signup for newsletter</h6>
+                            <h6 class="widget-title-text">Đăng Ký Nhận Bản Tin</h6>
                             <form class="newsletter-inner" id="mc-form">
-                                <input type="email" class="news-field" id="mc-email" autocomplete="off" placeholder="Enter your email address">
-                                <button class="news-btn" id="mc-submit">Subscribe</button>
+                                <input type="email" class="news-field" id="mc-email" autocomplete="off" placeholder="Nhập địa chỉ email của bạn">
+                                <button class="news-btn" id="mc-submit">Đăng Ký</button>
                             </form>
                             <!-- mail-chimp-alerts Start -->
                             <div class="mailchimp-alerts">
@@ -94,7 +94,7 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="copyright-text text-center">
-                            <p>&copy; 2022 <b>Corano</b> Made with <i class="fa fa-heart text-danger"></i> by <a href="https://hasthemes.com/"><b>Trần Xuân Dũng</b></a></p>
+                            <p>&copy; 2026 <b>Orvani</b> Được tạo bởi <a href="https://hasthemes.com/"><b>Nhóm 2</b></a></p>
                         </div>
                     </div>
                 </div>

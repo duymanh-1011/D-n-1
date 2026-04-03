@@ -1,6 +1,21 @@
 <?php require_once 'layout/header.php'; ?>
 
 <?php require_once 'layout/menu.php'; ?>
+<?php require_once 'layout/miniCart.php'; ?>
+
+<?php if (isset($_SESSION['success'])): ?>
+    <div class="alert alert-success">
+        <?= $_SESSION['success'][0] ?>
+    </div>
+    <?php unset($_SESSION['success']); ?>
+<?php endif; ?>
+
+<?php if (isset($_SESSION['error'])): ?>
+    <div class="alert alert-danger">
+        <?= $_SESSION['error'][0] ?>
+    </div>
+    <?php unset($_SESSION['error']); ?>
+<?php endif; ?>
 
 <main>
     <!-- breadcrumb area start -->
@@ -110,7 +125,7 @@
                                             <?php foreach ($listBinhLuan as $binhLuan): ?>
                                                 <div class="total-reviews">
                                                     <div class="rev-avatar">
-                                                        <img src="<?= $binhLuan['anh_dai_dien'] ?>" alt="">
+                                                        <img src="<?= BASE_URL . $binhLuan['anh_dai_dien'] ?>" alt="">
                                                     </div>
                                                     <div class="review-box">
 
@@ -121,19 +136,24 @@
                                                     </div>
                                                 </div>
                                             <?php endforeach ?>
-                                            <form action="#" class="review-form">
-                                                <div class="form-group row">
-                                                    <div class="col">
-                                                        <label class="col-form-label"><span class="text-danger">*</span>
-                                                            Nội dung bình luận</label>
-                                                        <textarea class="form-control" required></textarea>
+                                            <?php if (isset($_SESSION['user_client'])): ?>
+                                                <form action="<?= BASE_URL . '?act=post-binh-luan' ?>" method="post" class="review-form">
+                                                    <input type="hidden" name="san_pham_id" value="<?= $sanPham['id'] ?>">
+                                                    <div class="form-group row">
+                                                        <div class="col">
+                                                            <label class="col-form-label"><span class="text-danger">*</span>
+                                                                Nội dung bình luận</label>
+                                                            <textarea name="noi_dung" class="form-control" required></textarea>
+                                                        </div>
                                                     </div>
-                                                </div>
 
-                                                <div class="buttons">
-                                                    <button class="btn btn-sqr" type="submit">Bình luận</button>
-                                                </div>
-                                            </form> <!-- end of review-form -->
+                                                    <div class="buttons">
+                                                        <button class="btn btn-sqr" type="submit">Bình luận</button>
+                                                    </div>
+                                                </form> <!-- end of review-form -->
+                                            <?php else: ?>
+                                                <p>Vui lòng <a href="<?= BASE_URL . '?act=login' ?>">đăng nhập</a> để bình luận.</p>
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                 </div>
