@@ -43,7 +43,7 @@ match ($act) {
     'tai-khoan' => (new HomeController())->taiKhoan(),
     'update-tai-khoan' => (new HomeController())->updateTaiKhoan(),
 
-    // 👉 THÊM CÁI NÀY
+  
     'orders' => (new HomeController())->lichSuMuaHang(),
 
    'download' => (new HomeController())->download(),

@@ -119,7 +119,7 @@
                                                 <?php endforeach; ?>
                                             </tbody>
                                         </table>
-                                        <div class="alert alert-info">Bạn chưa có đơn đặt hàng, nhưng đang có sản phẩm trong giỏ.</div>
+
                                     </div>
                                 <?php else: ?>
                                     <div class="alert alert-info">Chưa có đơn hàng nào.</div>
