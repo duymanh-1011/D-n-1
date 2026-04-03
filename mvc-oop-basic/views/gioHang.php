@@ -1,6 +1,7 @@
 <?php require_once 'layout/header.php'; ?>
 
 <?php require_once 'layout/menu.php'; ?>
+<?php require_once 'layout/miniCart.php'; ?>
 
 <?php if (isset($_SESSION['error']) && !empty($_SESSION['error'])): ?>
     <div class="alert alert-danger" role="alert">

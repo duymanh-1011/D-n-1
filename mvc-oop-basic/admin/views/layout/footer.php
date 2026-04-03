@@ -32,5 +32,5 @@
 <script src="./assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- AdminLTE App -->
 <script src="./assets/dist/js/adminlte.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="./assets/dist/js/demo.js"></script>
+<!-- (Removed demo script to suppress demo alert message) -->
+<!-- script src="./assets/dist/js/demo.js"></script -->

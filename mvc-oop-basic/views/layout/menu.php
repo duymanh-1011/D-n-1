@@ -12,7 +12,7 @@
                         <div class="col-lg-2">
                             <div class="logo">
                                 <a href="<?= BASE_URL ?>">
-                                    <img src="assets/img/logo/logo.png" alt="Brand Logo">
+                                    <img src="assets/img/logo/logo_orvani.png" alt="Brand Logo">
                                 </a>
                             </div>
                         </div>
@@ -29,9 +29,15 @@
                                                 
                                             </li>
                                             
-                                            <li><a href="#">Sản phẩm<i class="fa fa-angle-down"></i></a>
+                                            <?php 
+                                            $listDanhMuc = (new SanPham())->getAllDanhMuc();
+                                            ?>
+                                            <li><a href="<?= BASE_URL . '?act=danh-sach-san-pham' ?>">Sản phẩm<i class="fa fa-angle-down"></i></a>
                                                 <ul class="dropdown">
-                                                    <li><a href="blog-left-sidebar.html">blog left sidebar</a></li>
+                                                    <li><a href="<?= BASE_URL . '?act=danh-sach-san-pham' ?>">Tất cả sản phẩm</a></li>
+                                                    <?php foreach ($listDanhMuc as $danhMuc) : ?>
+                                                    <li><a href="<?= BASE_URL . '?act=danh-sach-san-pham&danh_muc_id=' . $danhMuc['id'] ?>"><?= htmlspecialchars($danhMuc['ten_danh_muc']) ?></a></li>
+                                                    <?php endforeach; ?>
                                                 </ul>
                                             </li>
                                             <li><a href="#">Giới thiệu</a></li>

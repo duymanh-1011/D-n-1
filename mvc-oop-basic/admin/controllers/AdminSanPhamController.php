@@ -86,6 +86,19 @@ class AdminSanPhamController
 
             $_SESSION['error'] = $errors;
 
+            // Lưu dữ liệu form vào session để hiển thị lại khi có lỗi
+            if (!empty($errors)) {
+                $_SESSION['form_data'] = [
+                    'ten_san_pham' => $ten_san_pham,
+                    'gia_san_pham' => $gia_san_pham,
+                    'gia_khuyen_mai' => $gia_khuyen_mai,
+                    'so_luong' => $so_luong,
+                    'ngay_nhap' => $ngay_nhap,
+                    'danh_muc_id' => $danh_muc_id,
+                    'trang_thai' => $trang_thai,
+                    'mo_ta' => $mo_ta
+                ];
+            }
 
             // Nếu ko có lỗi thì tiến hành thêm sản phẩm
             if (empty($errors)) {

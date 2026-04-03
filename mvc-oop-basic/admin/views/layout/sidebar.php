@@ -43,7 +43,7 @@
 
         <li class="nav-item">
           <a href="<?= BASE_URL_ADMIN . '?act=san-pham' ?>" class="nav-link">
-            <i class="nav-icon fas fa-cat"></i>
+            <i class="nav-icon fas fa-tshirt fa-lg"></i>
             <p>
               Sản phẩm
             </p>

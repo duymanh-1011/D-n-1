@@ -51,6 +51,7 @@ function deleteSessionError()
         // Hủy session sau khi đã tải trang 
         unset($_SESSION['flash']);
         unset($_SESSION['error']);
+        unset($_SESSION['form_data']);
         // session_unset();
     }
 }
