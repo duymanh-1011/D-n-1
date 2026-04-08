@@ -94,7 +94,12 @@
                                                     echo formatPrice($tongTien) . ' đ';
                                                 ?>
                                             </span></td>
-                                            <td class="pro-remove"><a href="#"><i class="fa fa-trash-o"></i></a></td>
+                                            <td class="pro-remove">
+                                                <form method="POST" action="<?= BASE_URL . '?act=xoa-gio-hang' ?>" onsubmit="return confirm('Bạn có muốn xóa sản phẩm này không?');">
+                                                    <input type="hidden" name="san_pham_id" value="<?= $sanPham['san_pham_id'] ?>">
+                                                    <button type="submit" class="btn btn-link p-0 text-danger"><i class="fa fa-trash-o"></i></button>
+                                                </form>
+                                            </td>
                                         </tr>
                                         <?php endforeach ?>
                                     </tbody>

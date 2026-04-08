@@ -3,6 +3,8 @@
 <?php require_once 'layout/miniCart.php'; ?>
 
 <main>
+
+    <!-- breadcrumb area start -->
     <div class="breadcrumb-area">
         <div class="container">
             <div class="row">
@@ -10,7 +12,8 @@
                     <div class="breadcrumb-wrap">
                         <nav aria-label="breadcrumb">
                             <ul class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="<?= BASE_URL ?>"><i class="fa fa-home"></i></a></li>
+
+                                <li class="breadcrumb-item"><a href="<?= BASE_URL ?>"><i class="fa fa-home"></i> Trang chủ</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">Giới thiệu</li>
                             </ul>
                         </nav>
@@ -20,47 +23,115 @@
         </div>
     </div>
 
-    <section class="about-us section-padding">
+    <!-- breadcrumb area end -->
+
+
+    <!-- blog main wrapper start -->
+    <div class="blog-main-wrapper section-padding">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <div class="about-thumb">
-                        <img src="assets/img/about/orvani-about.png" alt="Giới thiệu Orvani" style="width: 100%; max-height: 650px; object-fit: cover; border-radius: 8px;">
-                    </div>
+
+            <div class="row">
+                <div class="col-lg-3 order-2 order-lg-1">
+                    <aside class="blog-sidebar-wrapper">
+                        <div class="blog-sidebar">
+                            <h5 class="title">Search</h5>
+                            <div class="sidebar-serch-form">
+                                <form action="<?= BASE_URL . '?act=gioi-thieu' ?>" method="GET">
+                                    <input type="hidden" name="act" value="gioi-thieu">
+                                    <input type="text" name="q" class="search-field" placeholder="Search here">
+                                    <button type="submit" class="search-btn"><i class="fa fa-search"></i></button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="blog-sidebar">
+                            <h5 class="title">Categories</h5>
+                            <ul class="blog-archive blog-category">
+                                <?php foreach ($listDanhMuc as $danhMuc) : ?>
+                                    <li><a href="<?= BASE_URL . '?act=danh-sach-san-pham&danh_muc_id=' . $danhMuc['id'] ?>"><?= htmlspecialchars($danhMuc['ten_danh_muc']) ?></a></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                        <div class="blog-sidebar">
+                            <h5 class="title">Recent posts</h5>
+                            <div class="recent-post">
+                                <?php foreach ($listRecentPosts as $recent) : ?>
+                                    <div class="recent-post-item">
+                                        <figure class="product-thumb">
+                                            <a href="<?= $recent['url'] ?>">
+                                                <img src="<?= BASE_URL . $recent['image'] ?>" alt="blog image">
+                                            </a>
+                                        </figure>
+                                        <div class="recent-post-description">
+                                            <div class="product-name">
+                                                <h6><a href="<?= $recent['url'] ?>"><?= htmlspecialchars($recent['title']) ?></a></h6>
+                                                <p><?= htmlspecialchars($recent['date']) ?></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                        <div class="blog-sidebar">
+                            <h5 class="title">Tags</h5>
+                            <ul class="blog-tags">
+                                <?php foreach ($listDanhMuc as $danhMuc) : ?>
+                                    <li><a href="<?= BASE_URL . '?act=danh-sach-san-pham&danh_muc_id=' . $danhMuc['id'] ?>"><?= htmlspecialchars($danhMuc['ten_danh_muc']) ?></a></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                    </aside>
                 </div>
-                <div class="col-lg-6">
-                    <div class="about-content">
-                        <h2 class="about-title">Summer Vibes cùng Orvani</h2>
-                        <h5 class="about-sub-title">Tinh thần tươi trẻ, năng động và đầy phóng khoáng dành riêng cho phái mạnh.</h5>
-                        <p>
-                            Mùa hè là bản hòa ca của tự do, và Orvani ở đây để giúp bạn viết nên chương rực rỡ nhất
-                            trong bản nhạc ấy. Chúng tôi không chỉ bán quần áo, chúng tôi mang đến “Summer Vibes” –
-                            tinh thần tươi trẻ, năng động và đầy phóng khoáng dành riêng cho phái mạnh.
-                        </p>
-                        <p><strong>Tại sao Orvani là lựa chọn số 1 cho mùa hè của bạn?</strong></p>
-                        <p>
-                            <strong>Chất liệu “Giải Nhiệt” Thông Minh:</strong> Orvani ưu tiên các dòng vải Cotton tinh khiết,
-                            vải Đũi (Linen) tự nhiên và thun lạnh cao cấp. Mỗi sợi vải đều được chọn lọc để đảm bảo sự
-                            thoáng mát tuyệt đối, thấm hút mồ hôi cực tốt dù bạn đang dạo phố hay vi vu biển xanh.
-                        </p>
-                        <p>
-                            <strong>Thiết kế Trẻ Trung - Đậm Chất Riêng:</strong> Từ những chiếc sơ mi họa tiết Tropical rực rỡ,
-                            áo Polo tối giản sang trọng đến những mẫu quần Short năng động, mọi item tại Orvani đều bắt
-                            trọn xu hướng thời trang nam mới nhất.
-                        </p>
-                        <p>
-                            <strong>Form Dáng Chuẩn, Tôn Chất Nam Tính:</strong> Các thiết kế được nghiên cứu kỹ lưỡng để vừa
-                            vặn với vóc dáng đàn ông Việt, giúp bạn luôn tự tin, thoải mái trong mọi cử động.
-                        </p>
-                        <p>
-                            <strong>Tuyên Ngôn Của Sự Tự Do:</strong> Với Orvani, mặc đẹp không chỉ là diện mạo, mà là cách
-                            bạn tận hưởng cuộc sống một cách tràn đầy năng lượng nhất.
-                        </p>
+                <div class="col-lg-9 order-1 order-lg-2">
+                    <div class="blog-item-wrapper">
+                        <div class="row mbn-30">
+                            <?php foreach ($listBlogPosts as $post) : ?>
+                                <div class="col-md-6">
+                                    <div class="blog-post-item mb-30">
+                                        <figure class="blog-thumb">
+                                            <a href="<?= $post['url'] ?>">
+                                                <img src="<?= BASE_URL . $post['image'] ?>" alt="blog image">
+                                            </a>
+                                        </figure>
+                                        <div class="blog-content">
+                                            <div class="blog-meta">
+                                                <p><?= htmlspecialchars($post['date']) ?> | <a href="#"><?= htmlspecialchars($post['category']) ?></a></p>
+                                            </div>
+                                            <h4 class="blog-title">
+                                                <a href="<?= $post['url'] ?>"><?= htmlspecialchars($post['title']) ?></a>
+                                            </h4>
+                                            <p><?= htmlspecialchars($post['excerpt']) ?></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                        <div class="paginatoin-area text-center">
+                            <ul class="pagination-box">
+                                <?php if ($currentPage > 1) : ?>
+                                    <li><a href="<?= BASE_URL . '?act=gioi-thieu&page=' . ($currentPage - 1) ?>" class="previous"><i class="pe-7s-angle-left"></i></a></li>
+                                <?php else : ?>
+                                    <li class="disabled"><span><i class="pe-7s-angle-left"></i></span></li>
+                                <?php endif; ?>
+
+                                <?php for ($page = 1; $page <= $totalPages; $page++) : ?>
+                                    <li class="<?= $page === $currentPage ? 'active' : '' ?>">
+                                        <a href="<?= BASE_URL . '?act=gioi-thieu&page=' . $page ?>"><?= $page ?></a>
+                                    </li>
+                                <?php endfor; ?>
+
+                                <?php if ($currentPage < $totalPages) : ?>
+                                    <li><a href="<?= BASE_URL . '?act=gioi-thieu&page=' . ($currentPage + 1) ?>" class="next"><i class="pe-7s-angle-right"></i></a></li>
+                                <?php else : ?>
+                                    <li class="disabled"><span><i class="pe-7s-angle-right"></i></span></li>
+                                <?php endif; ?>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+    <!-- blog main wrapper end -->
 </main>
 
 <?php require_once 'layout/footer.php'; ?>

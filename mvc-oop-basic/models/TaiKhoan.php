@@ -92,4 +92,29 @@ class TaiKhoan
             return $e->getMessage();
         }
     }
+
+    // UPDATE TAI KHOAN
+    public function updateTaiKhoan($id, $data)
+    {
+        try {
+            $sql = "UPDATE tai_khoans SET ";
+            $params = [];
+            $updates = [];
+
+            foreach ($data as $key => $value) {
+                $updates[] = "$key = :$key";
+                $params[":$key"] = $value;
+            }
+
+            $sql .= implode(', ', $updates) . " WHERE id = :id";
+            $params[':id'] = $id;
+
+            $stmt = $this->conn->prepare($sql);
+            return $stmt->execute($params);
+
+        } catch (Exception $e) {
+            error_log("Update Account Error: " . $e->getMessage());
+            return false;
+        }
+    }
 }

@@ -25,14 +25,14 @@
                                     <!-- main menu navbar start -->
                                     <nav class="desktop-menu">
                                         <ul>
-                                            <li><a href="<?= BASE_URL ?>">Trang chủ</i></a>
+                                            <li><a href="<?= BASE_URL ?>" <?php if (!isset($_GET['act']) || $_GET['act'] == '') echo 'style="color: orange;"'; ?>>Trang chủ</a>
                                                 
                                             </li>
                                             
                                             <?php 
                                             $listDanhMuc = (new SanPham())->getAllDanhMuc();
                                             ?>
-                                            <li><a href="<?= BASE_URL . '?act=danh-sach-san-pham' ?>">Sản phẩm<i class="fa fa-angle-down"></i></a>
+                                            <li><a href="<?= BASE_URL . '?act=danh-sach-san-pham' ?>" <?php if (isset($_GET['act']) && $_GET['act'] == 'danh-sach-san-pham') echo 'style="color: orange;"'; ?>>Sản phẩm<i class="fa fa-angle-down"></i></a>
                                                 <ul class="dropdown">
                                                     <li><a href="<?= BASE_URL . '?act=danh-sach-san-pham' ?>">Tất cả sản phẩm</a></li>
                                                     <?php foreach ($listDanhMuc as $danhMuc) : ?>
@@ -40,8 +40,8 @@
                                                     <?php endforeach; ?>
                                                 </ul>
                                             </li>
-                                            <li><a href="<?= BASE_URL . '?act=gioi-thieu' ?>">Giới thiệu</a></li>
-                                            <li><a href="<?= BASE_URL . '?act=lien-he' ?>">Liên hệ</a></li>
+                                            <li><a href="<?= BASE_URL . '?act=gioi-thieu' ?>" <?php if (isset($_GET['act']) && $_GET['act'] == 'gioi-thieu') echo 'style="color: orange;"'; ?>>Giới thiệu</a></li>
+                                            <li><a href="<?= BASE_URL . '?act=lien-he' ?>" <?php if (isset($_GET['act']) && $_GET['act'] == 'lien-he') echo 'style="color: orange;"'; ?>>Liên hệ</a></li>
                                         </ul>
                                     </nav>
                                     <!-- main menu navbar end -->
@@ -55,16 +55,33 @@
                             <div class="header-right d-flex align-items-center justify-content-xl-between justify-content-lg-end">
                                 <div class="header-search-container">
                                     <button class="search-trigger d-xl-none d-lg-block"><i class="pe-7s-search"></i></button>
-                                    <form class="header-search-box d-lg-none d-xl-block">
-                                        <input type="text" placeholder="Nhập tên sản phẩm" class="header-search-field">
-                                        <button class="header-search-btn"><i class="pe-7s-search"></i></button>
+                                    <form action="<?= BASE_URL ?>" method="get" class="header-search-box d-lg-none d-xl-block">
+                                        <input type="hidden" name="act" value="tim-kiem">
+                                        <input type="text" name="q" placeholder="Nhập tên sản phẩm" class="header-search-field" autocomplete="off">
+                                        <button type="submit" class="header-search-btn"><i class="pe-7s-search"></i></button>
                                     </form>
                                 </div>
                                 <div class="header-configure-area">
                                     <ul class="nav justify-content-end align-items-center">
-                                        <?php if (isset($_SESSION['user_client'])) { ?>
+                                        <?php
+                                        $cartCount = 0;
+                                        if (isset($_SESSION['user_client'])) {
+                                            require_once './models/GioHang.php';
+                                            $userModel = new TaiKhoan();
+                                            $gioHangModel = new GioHang();
+                                            $currentUser = $userModel->getTaiKhoanFromEmail($_SESSION['user_client']);
+                                            $displayName = !empty($currentUser['ho_ten']) ? $currentUser['ho_ten'] : $_SESSION['user_client'];
+
+                                            $gioHang = $gioHangModel->getGioHangFromUser($currentUser['id']);
+                                            if ($gioHang) {
+                                                $chiTietGioHang = $gioHangModel->getDetailGioHang($gioHang['id']);
+                                                foreach ($chiTietGioHang as $item) {
+                                                    $cartCount += intval($item['so_luong']);
+                                                }
+                                            }
+                                        ?>
                                             <li class="user-email">
-                                                <?= htmlspecialchars($_SESSION['user_client']) ?>
+                                                <?= htmlspecialchars($displayName) ?>
                                             </li>
                                         <?php } ?>
                                         <li class="user-hover">
@@ -85,7 +102,7 @@
                                         <li>
                                             <a href="#" class="minicart-btn">
                                                 <i class="pe-7s-shopbag"></i>
-                                                <div class="notification">2</div>
+                                                <div class="notification"><?= $cartCount ?></div>
                                             </a>
                                         </li> 
                                     </ul>

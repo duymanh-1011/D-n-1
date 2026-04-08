@@ -132,7 +132,48 @@ class AdminDonHang {
             echo "lỗi" . $e->getMessage();
         }
     }
+
+    public function countDonHang()
+    {
+        try {
+            $sql = 'SELECT COUNT(*) as total FROM don_hangs';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            $row = $stmt->fetch();
+            return intval($row['total'] ?? 0);
+        } catch (Exception $e) {
+            echo "lỗi" . $e->getMessage();
+        }
+    }
+
+    public function getTotalDoanhThu()
+    {
+        try {
+            $sql = 'SELECT COALESCE(SUM(tong_tien), 0) as total FROM don_hangs';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            $row = $stmt->fetch();
+            return floatval($row['total'] ?? 0);
+        } catch (Exception $e) {
+            echo "lỗi" . $e->getMessage();
+        }
+    }
     
-    
+    public function getDonHangMoiNhat($limit = 4)
+    {
+        try {
+            $sql = 'SELECT don_hangs.id, don_hangs.ma_don_hang, don_hangs.ngay_dat, don_hangs.tong_tien, trang_thai_don_hangs.ten_trang_thai
+            FROM don_hangs
+            INNER JOIN trang_thai_don_hangs ON don_hangs.trang_thai_id = trang_thai_don_hangs.id
+            ORDER BY don_hangs.ngay_dat DESC
+            LIMIT :limit';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindValue(':limit', intval($limit), PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (Exception $e) {
+            echo "lỗi" . $e->getMessage();
+        }
+    }
     
 }

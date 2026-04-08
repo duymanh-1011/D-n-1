@@ -48,7 +48,7 @@
               <div class="row">
                 <div class="col-12">
                   <h4>
-                    <i class="fas fa-cat"></i> Shop quần áo ORVANI
+                    <i class="nav-icon fas fa-tshirt"></i> Shop quần áo ORVANI
                     <small class="float-right">Ngày đặt: <?= formatDate($donHang['ngay_dat']); ?></small>
                   </h4>
                 </div>
@@ -78,7 +78,7 @@
                 <div class="col-sm-4 invoice-col">
                   <b>Mã đơn hàng: <?= $donHang['ma_don_hang']; ?></b><br>
                   <br>
-                  <b>Tổng tiền:</b> <?= $donHang['tong_tien']; ?><br>
+                  <b>Tổng tiền:</b> <?= formatPrice($donHang['tong_tien']) . 'đ'; ?><br>
                   <b>Ghi Chú:</b> <?= $donHang['ghi_chu']; ?><br>
                   <b>Thanh Toán:</b> <?= $donHang['ten_phuong_thuc']; ?>
                 </div>
@@ -125,21 +125,22 @@
                 <div class="col-6">
                   <p class="lead">Ngày đặt hàng: <?= $donHang['ngay_dat'] ?></p>
 
+                  <?php $phi_van_chuyen = 30000; $tong_thuc = $tong_tien + $phi_van_chuyen; ?>
                   <div class="table-responsive">
                     <table class="table">
                       <tr>
                         <th style="width:50%">Thành tiền:</th>
                         <td>
-                            <?= $tong_tien ?>
+                            <?= formatPrice($tong_tien) . 'đ' ?>
                         </td>
                       </tr>
                       <tr>
                         <th>Vận chuyển:</th>
-                        <td>200.000 </td>
+                        <td><?= formatPrice($phi_van_chuyen) . 'đ' ?></td>
                       </tr>
                       <tr>
                         <th>Tổng tiền:</th>
-                        <td><?= $tong_tien + 200000 ?></td>
+                        <td><?= formatPrice($tong_thuc) . 'đ' ?></td>
                       </tr>
                     </table>
                   </div>

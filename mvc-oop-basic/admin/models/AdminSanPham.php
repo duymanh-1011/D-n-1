@@ -209,9 +209,33 @@ class AdminSanPham {
             echo "lỗi" . $e->getMessage();
         }
     }
-    
-    
 
+    public function countSanPham()
+    {
+        try {
+            $sql = 'SELECT COUNT(*) as total FROM san_phams';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            $row = $stmt->fetch();
+            return intval($row['total'] ?? 0);
+        } catch (Exception $e) {
+            echo "lỗi" . $e->getMessage();
+        }
+    }
+
+    public function getLatestSanPham($limit = 4)
+    {
+        try {
+            $sql = 'SELECT id, ten_san_pham, gia_san_pham, hinh_anh, so_luong FROM san_phams ORDER BY ngay_nhap DESC LIMIT :limit';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindValue(':limit', intval($limit), PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll();
+        } catch (Exception $e) {
+            echo "lỗi" . $e->getMessage();
+        }
+    }
+    
     // Bình luận
     public function getBinhLuanFromKhachHang($id){
         try {

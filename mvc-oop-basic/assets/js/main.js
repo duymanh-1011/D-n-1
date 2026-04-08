@@ -144,6 +144,40 @@
 		}]
 	});
 
+	// promo product carousel 2 columns 3 rows
+	$('.promotion-carousel').slick({
+		speed: 1000,
+		autoplay: true,
+		slidesToShow: 2,
+		rows: 3,
+		adaptiveHeight: false,
+		prevArrow: '<button type="button" class="slick-prev"><i class="pe-7s-angle-left"></i></button>',
+		nextArrow: '<button type="button" class="slick-next"><i class="pe-7s-angle-right"></i></button>',
+		responsive: [{
+			breakpoint: 992,
+			settings: {
+				slidesToShow: 2,
+				rows: 3
+			}
+		},
+		{
+			breakpoint: 768,
+			settings: {
+				slidesToShow: 1,
+				rows: 3,
+				arrows: false
+			}
+		},
+		{
+			breakpoint: 480,
+			settings: {
+				slidesToShow: 1,
+				rows: 3,
+				arrows: false
+			}
+		}]
+	});
+
 
 	// product carousel active
 	$('.product-carousel-4_2').slick({

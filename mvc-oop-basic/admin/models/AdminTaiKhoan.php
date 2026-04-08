@@ -59,6 +59,19 @@ class AdminTaiKhoan
         }
     }
 
+    public function countKhachHang()
+    {
+        try {
+            $sql = 'SELECT COUNT(*) as total FROM tai_khoans WHERE chuc_vu_id != 1';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            $row = $stmt->fetch();
+            return intval($row['total'] ?? 0);
+        } catch (Exception $e) {
+            echo "lỗi" . $e->getMessage();
+        }
+    }
+
     public function updateTaiKhoan($id, $ho_ten, $email, $so_dien_thoai, $trang_thai){
         try {
             // var_dump($id);die;

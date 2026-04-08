@@ -4675,17 +4675,20 @@ blockquote {
   margin-right: 15px;
 }
 .product-details-des .quantity .pro-qty {
-  width: 90px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 100px;
   height: 40px;
   border: 1px solid #ddd;
-  padding: 0 15px;
+  padding: 0 10px;
   border-radius: 40px;
-  float: left;
 }
 .product-details-des .quantity .pro-qty .qtybtn {
-  width: 15px;
-  display: block;
-  float: left;
+  width: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   line-height: 40px;
   cursor: pointer;
   text-align: center;
@@ -4693,8 +4696,8 @@ blockquote {
   color: #555555;
 }
 .product-details-des .quantity .pro-qty input {
-  width: 28px;
-  float: left;
+  width: 34px;
+  flex: 0 0 34px;
   border: none;
   height: 40px;
   line-height: 40px;
@@ -6217,6 +6220,83 @@ blockquote {
 @media only screen and (max-width: 767.98px) {
   .sidebar-widget { min-height: auto; }
   .product-area .row { align-items: unset; }
+}
+.promotion-banner {
+  max-height: 730px;
+  overflow: hidden;
+  border-radius: 12px;
+}
+.promotion-banner {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+}
+.promotion-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.promotion-products,
+.promotion-banner {
+  min-height: 100%;
+}
+.promotion-products .product-item {
+  background: #fff;
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-height: 250px;
+}
+.promotion-products {
+  max-height: 250px;
+}
+.promotion-products .product-item.promotion-item {
+  padding: 6px;
+}
+.promotion-products .product-thumb {
+  min-height: 130px;
+  overflow: hidden;
+}
+.promotion-products .promotion-carousel .slick-slide {
+  display: block;
+  height: auto;
+}
+.promotion-products .promotion-carousel .slick-slide > div {
+  width: 100%;
+}
+
+.promotion-products .product-thumb img {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  display: block;
+}
+.promotion-products .product-caption {
+  text-align: left;
+  padding-top: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+.promotion-products .product-name {
+  font-size: 14px;
+}
+.promotion-products .price-box {
+  font-size: 13px;
+}
+.promotion-products .product-item .product-thumb {
+  margin-bottom: 10px;
+}
+@media only screen and (max-width: 991.98px) {
+  .promotion-banner {
+    margin-bottom: 20px;
+  }
 }
 /*----- footer area end -----*/
 .quantity-box {  font-size: 14px;

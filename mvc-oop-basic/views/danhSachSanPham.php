@@ -2,8 +2,25 @@
 <?php require_once 'layout/menu.php'; ?>
 <?php require_once 'layout/miniCart.php'; ?>
 
-<main class="pt-5">
-    <section class="product-area section-padding">
+<main>
+    <section class="breadcrumb-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-wrap">
+                        <nav aria-label="breadcrumb">
+                            <ul class="breadcrumb mb-0">
+                                <li class="breadcrumb-item"><a href="<?= BASE_URL ?>"><i class="fa fa-home"></i> Trang chủ</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Sản phẩm</li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="product-area section-padding pt-0 mt-5">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3">
@@ -52,7 +69,14 @@
                                         </a>
                                         <div class="card-body d-flex flex-column">
                                             <h6 class="card-title"><?= htmlspecialchars($sanPham['ten_san_pham']) ?></h6>
-                                            <p class="card-text mb-1"><strong>Giá</strong>: <?= number_format($sanPham['gia_san_pham']) ?>đ</p>
+                                            <p class="card-text mb-1"><strong>Giá</strong>:
+                                                <?php if (!empty($sanPham['gia_khuyen_mai'])): ?>
+                                                    <span class="text-danger"><?= formatPrice($sanPham['gia_khuyen_mai']) ?>đ</span>
+                                                    <span class="text-muted"><del><?= formatPrice($sanPham['gia_san_pham']) ?>đ</del></span>
+                                                <?php else: ?>
+                                                    <?= formatPrice($sanPham['gia_san_pham']) ?>đ
+                                                <?php endif; ?>
+                                            </p>
                                             <p class="card-text text-muted"><small><?= htmlspecialchars($sanPham['ten_danh_muc']) ?></small></p>
                                             <form action="<?= BASE_URL ?>" method="GET" class="mt-auto">
                                                 <input type="hidden" name="act" value="chi-tiet-san-pham">
