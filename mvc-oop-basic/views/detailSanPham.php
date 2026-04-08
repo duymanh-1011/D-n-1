@@ -5,14 +5,26 @@
 
 <?php if (isset($_SESSION['success'])): ?>
     <div class="alert alert-success">
-        <?= $_SESSION['success'][0] ?>
+        <?php
+            if (is_array($_SESSION['success'])) {
+                echo implode('<br>', array_map('htmlspecialchars', $_SESSION['success']));
+            } else {
+                echo htmlspecialchars($_SESSION['success']);
+            }
+        ?>
     </div>
     <?php unset($_SESSION['success']); ?>
 <?php endif; ?>
 
 <?php if (isset($_SESSION['error'])): ?>
     <div class="alert alert-danger">
-        <?= $_SESSION['error'][0] ?>
+        <?php
+            if (is_array($_SESSION['error'])) {
+                echo implode('<br>', array_map('htmlspecialchars', $_SESSION['error']));
+            } else {
+                echo htmlspecialchars($_SESSION['error']);
+            }
+        ?>
     </div>
     <?php unset($_SESSION['error']); ?>
 <?php endif; ?>
@@ -46,19 +58,26 @@
                 <div class="col-lg-12 order-1 order-lg-2">
                     <!-- product details inner end -->
                     <div class="product-details-inner">
+                        <?php
+                            $gallery = $listAnhSanPham;
+                            if (empty($gallery)) {
+                                $defaultImage = !empty($sanPham['hinh_anh']) ? $sanPham['hinh_anh'] : 'assets/img/no-image.png';
+                                $gallery = [['link_hinh_anh' => $defaultImage]];
+                            }
+                        ?>
                         <div class="row">
                             <div class="col-lg-5">
                                 <div class="product-large-slider">
-                                    <?php foreach ($listAnhSanPham as $key => $anhSanPham): ?>
+                                    <?php foreach ($gallery as $key => $anhSanPham): ?>
                                         <div class="pro-large-img img-zoom">
-                                            <img src="<?= BASE_URL . $anhSanPham['link_hinh_anh'] ?>" alt="product-details" />
+                                            <img src="<?= BASE_URL . ltrim($anhSanPham['link_hinh_anh'], '/') ?>" alt="product-details" />
                                         </div>
                                     <?php endforeach ?>
                                 </div>
                                 <div class="pro-nav slick-row-10 slick-arrow-style">
-                                    <?php foreach ($listAnhSanPham as $key => $anhSanPham): ?>
+                                    <?php foreach ($gallery as $key => $anhSanPham): ?>
                                         <div class="pro-nav-thumb">
-                                            <img src="<?= BASE_URL . $anhSanPham['link_hinh_anh'] ?>" alt="product-details" />
+                                            <img src="<?= BASE_URL . ltrim($anhSanPham['link_hinh_anh'], '/') ?>" alt="product-details" />
                                         </div>
                                     <?php endforeach ?>
                                 </div>
@@ -130,7 +149,7 @@
                                                     <div class="review-box">
 
                                                         <div class="post-author">
-                                                            <p><span><?= $binhLuan['ho_ten'] ?> - </span><?= $binhLuan['ngay_dang'] ?></p>
+                                                            <p><strong style="color: orange;"><?= htmlspecialchars($binhLuan['ho_ten']) ?></strong> - <?= $binhLuan['ngay_dang'] ?></p>
                                                         </div>
                                                         <p><?= $binhLuan['noi_dung'] ?></p>
                                                     </div>

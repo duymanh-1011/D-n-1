@@ -41,6 +41,36 @@ class SanPham {
         }
     }
 
+    public function reduceStock($san_pham_id, $so_luong){
+        try {
+            $sql = 'UPDATE san_phams SET so_luong = GREATEST(so_luong - :so_luong, 0) WHERE id = :id';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([
+                ':so_luong' => $so_luong,
+                ':id' => $san_pham_id
+            ]);
+            return $stmt->rowCount() > 0;
+        } catch (Exception $e) {
+            echo "Lỗi" . $e->getMessage();
+            return false;
+        }
+    }
+
+    public function restoreStock($san_pham_id, $so_luong){
+        try {
+            $sql = 'UPDATE san_phams SET so_luong = so_luong + :so_luong WHERE id = :id';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([
+                ':so_luong' => $so_luong,
+                ':id' => $san_pham_id
+            ]);
+            return $stmt->rowCount() > 0;
+        } catch (Exception $e) {
+            echo "Lỗi" . $e->getMessage();
+            return false;
+        }
+    }
+
     public function getListAnhSanPham($id){
         try {
             $sql = 'SELECT * FROM hinh_anh_san_phams WHERE san_pham_id = :id';
@@ -98,6 +128,39 @@ class SanPham {
             $stmt = $this->conn->prepare($sql);
             $stmt->execute();
             return $stmt->fetchAll();
+        } catch (Exception $e) {
+            echo "Lỗi" . $e->getMessage();
+        }
+    }
+
+    public function findProductByName($keyword){
+        try {
+            $sql = 'SELECT * FROM san_phams WHERE LOWER(ten_san_pham) LIKE LOWER(:keyword) ORDER BY ngay_nhap DESC LIMIT 1';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([':keyword' => '%' . $keyword . '%']);
+            return $stmt->fetch();
+        } catch (Exception $e) {
+            echo "Lỗi" . $e->getMessage();
+        }
+    }
+
+    public function findCategoryByName($keyword){
+        try {
+            $sql = 'SELECT * FROM danh_mucs WHERE LOWER(ten_danh_muc) LIKE LOWER(:keyword) LIMIT 1';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([':keyword' => '%' . $keyword . '%']);
+            return $stmt->fetch();
+        } catch (Exception $e) {
+            echo "Lỗi" . $e->getMessage();
+        }
+    }
+
+    public function getFirstProductByCategory($danh_muc_id){
+        try {
+            $sql = 'SELECT * FROM san_phams WHERE danh_muc_id = :danh_muc_id ORDER BY ngay_nhap DESC LIMIT 1';
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute([':danh_muc_id' => $danh_muc_id]);
+            return $stmt->fetch();
         } catch (Exception $e) {
             echo "Lỗi" . $e->getMessage();
         }

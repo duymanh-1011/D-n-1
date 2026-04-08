@@ -30,6 +30,34 @@ class HomeController
         require_once './views/danhSachSanPham.php';
     }
 
+    public function timKiem(){
+        $keyword = trim($_GET['q'] ?? '');
+        if (empty($keyword)) {
+            header("Location: " . BASE_URL);
+            exit();
+        }
+
+        $product = $this->modelSanPham->findProductByName($keyword);
+        if ($product) {
+            header("Location: " . BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $product['id']);
+            exit();
+        }
+
+        $category = $this->modelSanPham->findCategoryByName($keyword);
+        if ($category) {
+            $productInCategory = $this->modelSanPham->getFirstProductByCategory($category['id']);
+            if ($productInCategory) {
+                header("Location: " . BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $productInCategory['id']);
+                exit();
+            }
+        }
+
+        // Không tìm thấy kết quả, hiển thị thông báo trên trang chủ
+        $_SESSION['error'] = ['Không tìm thấy sản phẩm/ danh mục trùng khớp'];
+        header("Location: " . BASE_URL);
+        exit();
+    }
+
      public function chiTietSanPham(){
         $id = $_GET['id_san_pham'];
 
@@ -226,13 +254,12 @@ class HomeController
                     $this->modelGioHang->addDetailGioHang($gioHang['id'], $san_pham_id, $so_luong);
                 }
                 header("Location:" . BASE_URL . '?act=gio-hang');
-            }else{
-                var_dump('Chưa đăng nhập');die;
+            } else {
+                $_SESSION['error'] = ['Bạn chưa đăng nhập!'];
+                session_write_close();
+                header("Location: " . BASE_URL . '?act=login');
+                exit();
             }
-            
-
-            
-            
         }
     }
 
@@ -264,8 +291,91 @@ class HomeController
         }
 
         $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+        $donHangs = $this->modelDonHang->getDonHangFromUser($user['id']);
 
         require_once './views/taiKhoan.php';
+    }
+
+    public function postCapNhatTaiKhoan()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_SESSION['user_client'])) {
+            $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+            $userId = $user['id'];
+
+            $ho_ten = trim($_POST['ho_ten']);
+            $email = trim($_POST['email']);
+            $ngay_sinh = trim($_POST['ngay_sinh']);
+            $dia_chi = trim($_POST['dia_chi']);
+            $so_dien_thoai = trim($_POST['so_dien_thoai']);
+            $current_password = $_POST['current_password'] ?? '';
+            $new_password = $_POST['new_password'] ?? '';
+            $confirm_password = $_POST['confirm_password'] ?? '';
+
+            $errors = [];
+
+            // Validate
+            if (empty($ho_ten)) $errors[] = "Họ tên không được để trống";
+            if (empty($email)) $errors[] = "Email không được để trống";
+            if (empty($dia_chi)) $errors[] = "Địa chỉ không được để trống";
+            if (empty($so_dien_thoai)) $errors[] = "Số điện thoại không được để trống";
+
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $errors[] = "Email không hợp lệ";
+            }
+
+            // Check email exists for other users
+            $existingUser = $this->modelTaiKhoan->getTaiKhoanFromEmail($email);
+            if ($existingUser && $existingUser['id'] != $userId) {
+                $errors[] = "Email đã được sử dụng bởi tài khoản khác";
+            }
+
+            // Password change validation
+            if (!empty($new_password)) {
+                if (empty($current_password)) {
+                    $errors[] = "Vui lòng nhập mật khẩu hiện tại";
+                } elseif (!password_verify($current_password, $user['mat_khau'])) {
+                    $errors[] = "Mật khẩu hiện tại không đúng";
+                } elseif (strlen($new_password) < 6) {
+                    $errors[] = "Mật khẩu mới phải có ít nhất 6 ký tự";
+                } elseif ($new_password !== $confirm_password) {
+                    $errors[] = "Mật khẩu xác nhận không khớp";
+                }
+            }
+
+            if (!empty($errors)) {
+                $_SESSION['error'] = $errors;
+                header("Location: " . BASE_URL . '?act=tai-khoan');
+                exit();
+            }
+
+            // Update user info
+            $updateData = [
+                'ho_ten' => $ho_ten,
+                'email' => $email,
+                'ngay_sinh' => $ngay_sinh,
+                'dia_chi' => $dia_chi,
+                'so_dien_thoai' => $so_dien_thoai
+            ];
+
+            if (!empty($new_password)) {
+                $updateData['mat_khau'] = password_hash($new_password, PASSWORD_DEFAULT);
+                $_SESSION['user_client'] = $email; // Update session if email changed
+            }
+
+            $result = $this->modelTaiKhoan->updateTaiKhoan($userId, $updateData);
+
+            if ($result) {
+                $_SESSION['success'] = ['Cập nhật tài khoản thành công'];
+            } else {
+                $_SESSION['error'] = ['Có lỗi xảy ra khi cập nhật tài khoản'];
+            }
+
+            header("Location: " . BASE_URL . '?act=tai-khoan');
+            exit();
+        }
+
+        header("Location: " . BASE_URL . '?act=tai-khoan');
+        exit();
     }
 
     public function thanhToan(){
@@ -326,6 +436,28 @@ class HomeController
     }
 }
 
+    public function xoaGioHang(){
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if (!isset($_SESSION['user_client'])) {
+                $_SESSION['error'] = ['Bạn chưa đăng nhập!'];
+                session_write_close();
+                header("Location: " . BASE_URL . '?act=login');
+                exit();
+            }
+
+            $san_pham_id = $_POST['san_pham_id'];
+            $user = $this->modelTaiKhoan->getTaiKhoanFromEmail($_SESSION['user_client']);
+            $gioHang = $this->modelGioHang->getGioHangFromUser($user['id']);
+
+            if ($gioHang) {
+                $this->modelGioHang->removeDetailGioHang($gioHang['id'], $san_pham_id);
+            }
+        }
+
+        header("Location: " . BASE_URL . '?act=gio-hang');
+        exit();
+    }
+
     public function postThanhToan(){
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // var_dump($_POST);die;
@@ -372,7 +504,7 @@ class HomeController
                 $gioHang = $this->modelGioHang->getGioHangFromUser($tai_khoan_id);
                 $chiTietGioHang = $this->modelGioHang->getDetailGioHang($gioHang['id']);
 
-                // Lưu từng sản phẩm vào chi tiết đơn hàng
+                // Lưu từng sản phẩm vào chi tiết đơn hàng và giảm tồn kho
                 foreach ($chiTietGioHang as $item) {
                     $donGia = $item['gia_khuyen_mai'] ?? $item['gia_san_pham'];
                     $this->modelDonHang->addChiTietDonHang(
@@ -382,6 +514,7 @@ class HomeController
                         $item['so_luong'],
                         $donGia * $item['so_luong']
                     );
+                    $this->modelSanPham->reduceStock($item['san_pham_id'], $item['so_luong']);
                 }
 
                 $this->modelGioHang->clearDetailGioHang($gioHang['id']);
@@ -481,16 +614,15 @@ class HomeController
                 exit;
             }
 
+            $chiTietDonHang = $this->modelDonHang->getChiTietDonHangByDonHangId($donHangId);
+            foreach ($chiTietDonHang as $item) {
+                $this->modelSanPham->restoreStock($item['san_pham_id'], $item['so_luong']);
+            }
 
             // Hủy đơn hàng
             $this->modelDonHang->updateTrangThaiDonHang($donHangId, 11);
             header("Location: " . BASE_URL . '?act=lich_su_mua_hang');
             exit();
-
-
-            // Lấy ra danh sách tất cả trạng thái của tài khoản
-            $donHangs = $this->modelDonHang->getDonHangFromUser($tai_khoan_id);
-            require_once "./views/lichSuMuaHang.php";
         } else {
             var_dump("Ban chua dang nhap");
             die;
@@ -499,6 +631,47 @@ class HomeController
 
     public function gioiThieu()
     {
+        $listDanhMuc = $this->modelSanPham->getAllDanhMuc();
+        $listSanPham = $this->modelSanPham->getAllSanPham();
+
+        $currentPage = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+        $itemsPerPage = 4;
+        $totalProducts = count($listSanPham);
+        $totalPages = max(1, (int) ceil($totalProducts / $itemsPerPage));
+        $currentPage = max(1, min($currentPage, $totalPages));
+
+        $offset = ($currentPage - 1) * $itemsPerPage;
+        $pageProducts = array_slice($listSanPham, $offset, $itemsPerPage);
+
+        $listRecentPosts = [];
+        foreach (array_slice($listSanPham, 0, 3) as $sanPham) {
+            $listRecentPosts[] = [
+                'url' => BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $sanPham['id'],
+                'image' => $sanPham['hinh_anh'],
+                'title' => $sanPham['ten_san_pham'],
+                'date' => date('d/m/Y', strtotime($sanPham['ngay_nhap']))
+            ];
+        }
+
+        $listBlogPosts = [];
+        foreach ($pageProducts as $sanPham) {
+            $excerpt = '';
+            if (!empty($sanPham['mo_ta'])) {
+                $excerpt = mb_strlen($sanPham['mo_ta']) > 120 ? mb_substr($sanPham['mo_ta'], 0, 120) . '...' : $sanPham['mo_ta'];
+            } else {
+                $excerpt = 'Cập nhật tin tức mới về sản phẩm ' . $sanPham['ten_san_pham'] . '. Xem thêm chi tiết tại trang sản phẩm.';
+            }
+
+            $listBlogPosts[] = [
+                'title' => $sanPham['ten_san_pham'],
+                'url' => BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $sanPham['id'],
+                'image' => $sanPham['hinh_anh'],
+                'date' => date('d/m/Y', strtotime($sanPham['ngay_nhap'])),
+                'category' => $sanPham['ten_danh_muc'] ?? 'Tin tức',
+                'excerpt' => $excerpt,
+            ];
+        }
+
         require_once './views/gioiThieu.php';
         exit();
     }

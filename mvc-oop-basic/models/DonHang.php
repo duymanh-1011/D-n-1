@@ -69,7 +69,10 @@ class DonHang{
     }
     public function getDonHangFromUser($taiKhoanId){
         try {
-            $sql = "SELECT * FROM don_hangs WHERE tai_khoan_id = :tai_khoan_id";
+            $sql = "SELECT don_hangs.*, trang_thai_don_hangs.ten_trang_thai
+                    FROM don_hangs
+                    LEFT JOIN trang_thai_don_hangs ON don_hangs.trang_thai_id = trang_thai_don_hangs.id
+                    WHERE don_hangs.tai_khoan_id = :tai_khoan_id";
 
             $stmt = $this->conn->prepare($sql);
             $stmt->execute([

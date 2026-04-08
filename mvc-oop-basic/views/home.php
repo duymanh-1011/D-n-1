@@ -3,6 +3,33 @@
 <?php require_once 'layout/menu.php'; ?>
 <?php require_once 'layout/miniCart.php'; ?>
 
+    <!-- Display Error/Success Messages -->
+    <?php if (!empty($_SESSION['error'])): ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin: 20px auto; max-width: 1200px;">
+            <strong>Thông báo:</strong> 
+            <?php 
+            foreach ($_SESSION['error'] as $err) {
+                echo htmlspecialchars($err) . '<br>';
+            }
+            unset($_SESSION['error']);
+            ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+
+    <?php if (!empty($_SESSION['success'])): ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin: 20px auto; max-width: 1200px;">
+            <strong>Thành công:</strong> 
+            <?php 
+            foreach ($_SESSION['success'] as $msg) {
+                echo htmlspecialchars($msg) . '<br>';
+            }
+            unset($_SESSION['success']);
+            ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+
     <main>
         <!-- hero slider area start -->
         <section class="slider-area">
@@ -193,71 +220,58 @@
                         <!-- section title start -->
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="product-container">
-
-                            <!-- product tab content start -->
-                            <div class="tab-content">
-                                <div class="tab-pane fade show active" id="tab1">
-                                    <div class="product-carousel-4 slick-row-10 slick-arrow-style">
-                                        <?php foreach ($listSanPham as $key => $sanPham): ?>
-                                        <!-- product item start -->
-                                        <div class="product-item">
-                                            <figure class="product-thumb">
-                                                <a href="<?= BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $sanPham['id']; ?>">
-                                                    <img class="pri-img" src="<?= BASE_URL . $sanPham['hinh_anh'] ?>" alt="product">
-                                                    <img class="sec-img" src="<?= BASE_URL . $sanPham['hinh_anh'] ?>" alt="product">
-                                                </a>
-                                                <div class="product-badge">
-                                                    <?php 
-                                                        $ngayNhap = new DateTime($sanPham['ngay_nhap']);
-                                                        $ngayHienTai = new DateTime();
-                                                        $tinhNgay = $ngayHienTai->diff($ngayNhap);
-
-                                                        if ($tinhNgay->days <=7) {
-                                                    ?>
-                                                            <div class="product-label new">
-                                                                <span>Mới</span>
-                                                            </div>
-                                                    <?php
-                                                        }
-                                                    ?>
-                                                    <?php if ($sanPham['gia_khuyen_mai']) { ?>
-                                                        <div class="product-label discount">
-                                                            <span>Giảm giá</span>
-                                                        </div>
-
-                                                    <?php } ?>
-                                                </div>
-                                                <div class="cart-hover">
-                                                    <a href="<?= BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $sanPham['id']; ?>"><button class="btn btn-cart">Xem chi tiết</button></a>
-                                                </div>
-                                            </figure>
-                                            <div class="product-caption text-center">
-                                                
-                                                <h6 class="product-name">
-                                                    <a href="<?= BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $sanPham['id']; ?>"><?= $sanPham['ten_san_pham'] ?></a>
-                                                </h6>
-                                                <div class="price-box">
-                                                    <?php if ($sanPham['gia_khuyen_mai']) { ?>
-                                                        <span class="price-regular"><?= formatPrice($sanPham['gia_khuyen_mai']).'đ'; ?></span>
-                                                        <span class="price-old"><del><?= formatPrice($sanPham['gia_san_pham']).'đ';?></del></span>
-                                                    <?php } else { ?>
-                                                        <span class="price-regular"><?= formatPrice($sanPham['gia_san_pham']).'đ'; ?></span>
-                                                    <?php } ?>
-                                                </div>
+                <?php
+                    $promoBanner = BASE_URL . 'assets/img/banner/sale.jpg';
+                ?>
+                <div class="row gy-4">
+                    <div class="col-lg-8 col-md-8">
+                        <div class="promotion-banner">
+                            <img src="<?= $promoBanner ?>" alt="Banner khuyến mãi" />
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <div class="promotion-products">
+                            <div class="promotion-carousel slick-row-10 slick-arrow-style">
+                                <?php foreach ($listSanPham as $sanPham): ?>
+                                    <div class="product-item promotion-item">
+                                        <figure class="product-thumb">
+                                            <a href="<?= BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $sanPham['id']; ?>">
+                                                <img class="pri-img" src="<?= BASE_URL . $sanPham['hinh_anh'] ?>" alt="product">
+                                                <img class="sec-img" src="<?= BASE_URL . $sanPham['hinh_anh'] ?>" alt="product">
+                                            </a>
+                                            <div class="product-badge">
+                                                <?php 
+                                                    $ngayNhap = new DateTime($sanPham['ngay_nhap']);
+                                                    $ngayHienTai = new DateTime();
+                                                    $tinhNgay = $ngayHienTai->diff($ngayNhap);
+                                                    if ($tinhNgay->days <= 7) {
+                                                ?>
+                                                    <div class="product-label new"><span>Mới</span></div>
+                                                <?php } ?>
+                                                <?php if ($sanPham['gia_khuyen_mai']): ?>
+                                                    <div class="product-label discount"><span>Giảm giá</span></div>
+                                                <?php endif; ?>
+                                            </div>
+                                            <div class="cart-hover">
+                                                <a href="<?= BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $sanPham['id']; ?>"><button class="btn btn-cart">Xem chi tiết</button></a>
+                                            </div>
+                                        </figure>
+                                        <div class="product-caption text-start">
+                                            <h6 class="product-name">
+                                                <a href="<?= BASE_URL . '?act=chi-tiet-san-pham&id_san_pham=' . $sanPham['id']; ?>"><?= $sanPham['ten_san_pham'] ?></a>
+                                            </h6>
+                                            <div class="price-box">
+                                                <?php if ($sanPham['gia_khuyen_mai']): ?>
+                                                    <span class="price-regular"><?= formatPrice($sanPham['gia_khuyen_mai']).'đ'; ?></span>
+                                                    <span class="price-old"><del><?= formatPrice($sanPham['gia_san_pham']).'đ';?></del></span>
+                                                <?php else: ?>
+                                                    <span class="price-regular"><?= formatPrice($sanPham['gia_san_pham']).'đ'; ?></span>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
-                                        <!-- product item end -->
-
-                                        <?php endforeach ?>
-
                                     </div>
-                                </div>
-                              
+                                <?php endforeach ?>
                             </div>
-                            <!-- product tab content end -->
                         </div>
                     </div>
                 </div>
